@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"strconv"
 
 	"github.com/rakyll/pb"
 )
@@ -43,8 +44,9 @@ type ReqOpts struct {
 }
 
 // Creates a req object from req options
-func (r *ReqOpts) Request() *http.Request {
-	req, _ := http.NewRequest(r.Method, r.Url, strings.NewReader(r.Body))
+func (r *ReqOpts) Request(nReq int) *http.Request {
+	// won't work with other get params
+	req, _ := http.NewRequest(r.Method, r.Url + "?n=" + strconv.Itoa(nReq), strings.NewReader(r.Body))
 	req.Header = r.Header
 
 	// update the Host value in the Request - this is used as the host header in any subsequent request
@@ -65,6 +67,8 @@ type Boomer struct {
 	C int
 	// Timeout in seconds.
 	Timeout int
+	//
+	DoIncrement bool
 	// Rate limit.
 	Qps int
 	// Option to allow insecure TLS/SSL certificates.

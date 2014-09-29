@@ -24,8 +24,8 @@ import (
 	"os"
 	"regexp"
 	"strings"
-
-	"github.com/rakyll/boom/boomer"
+	//"./boomer"
+	"github.com/fredshonorio/boom/boomer"
 )
 
 const (
@@ -164,6 +164,7 @@ func main() {
 		C:             c,
 		Qps:           q,
 		Timeout:       t,
+		DoIncrement:   true,
 		AllowInsecure: *flagInsecure,
 		Output:        *flagOutput,
 		ProxyAddr:     *flagProxyAddr}).Run()

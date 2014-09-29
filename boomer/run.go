@@ -95,7 +95,7 @@ func (b *Boomer) run() {
 		if b.Qps > 0 {
 			<-throttle
 		}
-		jobs <- b.Req.Request()
+		jobs <- b.Req.Request(i)
 	}
 	close(jobs)
 
