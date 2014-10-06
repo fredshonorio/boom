@@ -46,7 +46,15 @@ type ReqOpts struct {
 // Creates a req object from req options
 func (r *ReqOpts) Request(nReq int) *http.Request {
 	// won't work with other get params
-	req, _ := http.NewRequest(r.Method, r.Url + "?n=" + strconv.Itoa(nReq), strings.NewReader(r.Body))
+
+	newUrl := r.Url
+	if strings.Contains(newUrl, "?") {
+		newUrl += "&=" + strconv.Itoa(nReq)
+	} else {
+		newUrl += "?=" + strconv.Itoa(nReq)
+	}
+
+	req, _ := http.NewRequest(r.Method, newUrl, strings.NewReader(r.Body))
 	req.Header = r.Header
 
 	// update the Host value in the Request - this is used as the host header in any subsequent request
